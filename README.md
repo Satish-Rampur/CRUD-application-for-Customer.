@@ -42,91 +42,96 @@ This is a CRUD (Create, Read, Update, Delete) application for managing customer 
 - **Create Customer**
 
     - **Path:** http://localhost:8080/customer/add
-- **Method:** POST
-- **Request Body:**
-    ```json
-      {
-        "firstName": "Jane",
-        "lastName": "Doe",
-        "street": "Elvnu Street",
-        "address": "H no 2",
-        "city": "Delhi",
-        "state": "Delhi",
-        "email": "sam@gmail.com",
-        "phone": "12345678"
-      }
-Update Customer
+    - **Method:** POST
+    - **Request Body:**
+        ```json
+          {
+            "firstName": "Jane",
+            "lastName": "Doe",
+            "street": "Elvnu Street",
+            "address": "H no 2",
+            "city": "Delhi",
+            "state": "Delhi",
+            "email": "sam@gmail.com",
+            "phone": "12345678"
+          }
+        
+- **Update Customer**
+  - **Path:** http://localhost:8080/customer/update
+  - **Method:** PUT
+  - **Request Body:** Same as the create customer request body.
 
-Path: /api/customers/{id}
-Method: PUT
-Request Body: Same as the create customer request body.
-Get Customer List
+- **Get All Customer List**
+    - **Path:** http://localhost:8080/customer/all
+    - **Method:** GET
+      
+- **Get Customer by Id**
+    - **Path:** http://localhost:8080/customer/get/{customerId}
+    - **Method:** GET
 
-Path: /api/customers
-Method: GET
-Parameters: Pagination, sorting, and searching parameters.
-Get Single Customer
+ - **Get Customer by First Name**
+    - **Path:** http://localhost:8080/customer/getByFirstName/{firstName}
+    - **Method:** GET
 
-Path: /api/customers/{id}
-Method: GET
-Delete Customer
+- **Get Customer by City**
+    - **Path:** http://localhost:8080/customer/getByCity/{city}
+    - **Method:** GET
 
-Path: /api/customers/{id}
-Method: DELETE
-Sync Customers
+- **Get Customer by Email**
+    - **Path:** http://localhost:8080/customer/getByEmail/{email}
+    - **Method:** GET
 
-Path: /api/customers/sync
-Method: POST
-Frontend Screens
-Login Screen: User authentication form.
-Customer List Screen: Displays a list of customers with pagination, sorting, and searching functionalities. Includes a Sync button to fetch and update customer data from a remote API.
-Add Customer Screen: Form to create a new customer.
-Setup and Installation
-Prerequisites
-Java Development Kit (JDK)
-MySQL Database
-Node.js (for running frontend code)
-Backend Setup
-Clone the repository:
+- **Get Customer by Phone**
+    - **Path:** http://localhost:8080/customer/getByPhone/{phone}
+    - **Method:** GET
 
-bash
-Copy code
-git clone https://github.com/your-username/customer-crud-app.git
-cd customer-crud-app
-Configure the MySQL database:
+- **Delete Customer**
+    - **Path:** http://localhost:8080/customer/delete/{customerId}
+    - **Method:** DELETE
 
-Create a new database named customer_db.
-Update the application.properties file with your MySQL database credentials.
-Build and run the Spring Boot application:
+- **Sync Customers**
+    - **Path:** /api/customers/sync
+    - **Method:** POST
 
-bash
-Copy code
-./mvnw spring-boot:run
-Frontend Setup
-Navigate to the frontend directory:
+## Frontend Screens
+1. **Login Screen:** Logn Screen for Admin.
+       <img src="images/loginScreen.png" alt="Login Screen" width="700"/>
+    
+2. **Customer List Screen:** Displays a list of customers with pagination, sorting, and searching functionalities. Includes a Sync button to fetch and update customer data from a remote API.
+       <img src="images/customerListScreen.png" alt="Login Screen" width="700"/>
+       
+3. **Add Customer Screen:** Form to create a new customer.
+       <img src="images/addCustomerScreen.png" alt="Login Screen" width="700"/>
 
-bash
-Copy code
-cd frontend
-Open the index.html file in your browser to access the application.
+4. **Update Customer Screen:** Form to edit and update details of customer.
+       <img src="images/updateCustomerScreen.png" alt="Login Screen" width="700"/>
 
-Running the Application
-Access the login screen at http://localhost:8080/login.
-Use the credentials test@sunbasedata.com / Test@123 to log in.
-Navigate through the customer management screens to create, update, view, and delete customers.
-Sync Functionality
-Click the "Sync" button on the Customer List screen to fetch customer data from the remote API.
-The application will authenticate using the provided credentials, retrieve the customer data, and update the local database.
-Repository Structure
-css
-Copy code
-customer-crud-app/
-├── backend/
-│   ├── src/
-│   └── ...
-├── frontend/
-│   ├── index.html
-│   ├── style.css
-│   └── script.js
-├── README.md
-└── ...
+## Setup and Installation
+### Prerequisites
+- Java Development Kit (JDK)
+- MySQL Database
+- Intellij Idea (to build and run spring boot easily)
+- Node.js or Live Server  v5.7.9 extension in VS Code (for running frontend code)
+    
+### Backend Setup
+1. Clone the repository:
+   ```bash
+        git clone https://github.com/merlin2410/Sunbase-Assignment.git
+2. Configure the MySQL database:
+    - Create a new database named **customer_db** (In the code it is 'sunbase').
+3. Update the **application.properties** file with your MySQL database credentials. For eg.
+   
+       
+           spring.application.name=Assignment
+           spring.datasource.url=jdbc:mysql://localhost:3306/customer_db?createTableIfNotExists=true
+           spring.datasource.username=root
+           spring.datasource.password=password
+       
+5. Build and run the Spring Boot application (use Intellij Idea)
+
+### Frontend Setup
+1. Open VS Code
+2. Navigate to the Frontend directory and open folder
+3. Go to **index.html** and using Live Server, run the application.
+
+
