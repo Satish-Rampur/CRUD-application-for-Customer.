@@ -36,6 +36,7 @@ async function getToken(userName,password){
         
         console.log('Token:', token); 
         localStorage.setItem('authToken', token);
+        window.location.href = 'customerList.html';
     } catch (error) {
         console.error('Error:', error);
     }

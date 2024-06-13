@@ -8,10 +8,17 @@ const syncButton = document.getElementById('sync-btn');
 const searchButton = document.getElementById('search-button');
 const searchField = document.getElementById('search-element');
 const searchTypeField = document.getElementById('search-by');
+const logoutButton = document.getElementById('logout');
 let currentPageNumber = 0;
 let field = "firstName";
 let pageSize = 5;
 
+
+
+logoutButton.addEventListener('click',(event)=>{
+    localStorage.clear();
+    window.location.href = 'index.html';
+})
 
 nextButton.addEventListener('click',(event)=>{
     event.preventDefault();
