@@ -8,7 +8,8 @@ const stateField = document.getElementById('state');
 const emailField = document.getElementById('email');
 const phoneField = document.getElementById('phone');
 const submitButton = document.getElementById('submit-btn');
-
+const urlParams = new URLSearchParams(window.location.search);
+const customerId = urlParams.get('customerId');
 
 checkTokenAndRedirect();
 
@@ -32,12 +33,13 @@ async function addCustomer(firstName,lastName,address,street,city,state,email,ph
     const token = localStorage.getItem('authToken');
     try {
         const response = await fetch('http://localhost:8080/customer/update', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization':`Bearer ${token}`
             },
             body: JSON.stringify({
+                id: customerId,
                 firstName: firstName,
                 lastName: lastName,
                 address: address,
