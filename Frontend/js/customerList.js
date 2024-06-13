@@ -50,6 +50,11 @@ searchButton.addEventListener('click',(event)=>{
 
 })
 
+syncButton.addEventListener('click',(event)=>{
+    event.preventDefault();
+    syncCustomerData();
+})
+
 
 function searchCustomer(searchType,searchTerm){
 
@@ -88,12 +93,56 @@ async function onDeleteClick(customerId){
 
         getCustomerList();   
         }
-        catch(error){
+    catch(error){
             console.error('Error:',error);
         }
 
         
+}
+
+async function syncCustomerData() {
+    try {
+      
+      const bearerToken = "dGVzdEBzdW5iYXNlZGF0YS5jb206VGVzdEAxMjM=";
+      console.log(bearerToken);
+      
+  
+      //Fetch customer data from remote API
+      const customerResponse = await fetch('https://qa.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=get_customer_list', {
+        headers: {
+          Authorization: `Bearer ${bearerToken}`
+        },
+        mode: 'no-cors'
+      });
+  
+      if (!customerResponse.ok) {
+        throw new Error('Failed to fetch customer data');
+      }
+  
+      const customerList = await customerResponse.json();
+      console.log(customerResponse);
+      /*
+  
+      // 3. Loop through customer data and save/update in your database
+      for (const customer of customerList) {
+        const existingCustomer = await checkForExistingCustomer(customer.email); // Replace with your logic to check for existing customer
+  
+        if (existingCustomer) {
+          // Update existing customer
+          await updateCustomerInDatabase(customer); // Replace with your logic to update customer
+        } else {
+          // Save new customer
+          await saveCustomerInDatabase(customer); // Replace with your logic to save customer
+        }
+      }
+  
+      console.log('Customer data synced successfully!'); */
+    } catch (error) {
+      console.error('Error syncing customer data:', error);
+      // Handle errors appropriately, e.g
     }
+}
+
 
 
 
