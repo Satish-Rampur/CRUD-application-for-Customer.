@@ -101,6 +101,11 @@
     color: white;
     border-radius: 9px;
     font-size: large;
+    
+}
+
+.previous button:hover{
+    cursor: pointer;
 }
 
 .next{
@@ -123,6 +128,10 @@
     font-size: large;
 }
 
+.next button:hover{
+    cursor: pointer;
+}
+
 .add-search-sync{
     display: flex;
     align-items: center;
@@ -137,6 +146,10 @@
     background-color: blue;
     color: white;
     border: none;
+}
+
+.add-search-sync button:hover{
+    cursor: pointer;
 }
 
 .search-searchby{
@@ -157,6 +170,10 @@
     width: 100%;
     height: 100%;
     border-radius: 10px;
+}
+
+.search-searchby select:hover{
+    cursor: pointer;
 }
 
 .search{
@@ -194,6 +211,10 @@
     border-left: 1px solid #d3d3d3;
 }
 
+.search-icon:hover{
+    cursor: pointer;
+}
+
 .add{
     height: 100%;
     width: 15%;
@@ -205,6 +226,9 @@
     width: 100%;
 }
 
+.add button:hover{
+    cursor: pointer;
+}
 
 .sync{
     height: 100%;
@@ -215,4 +239,16 @@
     font-size: large;
     height: 100%;
     width: 100%;
+}
+
+.sync button:hover{
+    cursor: pointer;
+}
+
+.logout:hover{
+    cursor: pointer;
+}
+
+.heading:hover{
+    cursor: pointer;
 }

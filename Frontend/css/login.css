@@ -34,3 +34,7 @@
     color: white;
     font-size: 20px;
 }
+
+.login-form button:hover{
+    cursor: pointer;
+}

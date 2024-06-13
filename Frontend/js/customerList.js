@@ -9,11 +9,66 @@ const searchButton = document.getElementById('search-button');
 const searchField = document.getElementById('search-element');
 const searchTypeField = document.getElementById('search-by');
 const logoutButton = document.getElementById('logout');
+const firstNameHeading = document.getElementById('firstNameHeading');
+const lastNameHeading = document.getElementById('lastNameHeading');
+const addressHeading = document.getElementById('addressHeading');
+const cityHeading = document.getElementById('cityHeading');
+const stateHeading = document.getElementById('stateHeading');
+const emailHeading = document.getElementById('emailHeading');
+const phoneHeading = document.getElementById('phoneHeading');
 let currentPageNumber = 0;
 let field = "firstName";
 let pageSize = 5;
 
+//On click to sort based on firstName
+firstNameHeading.addEventListener('click',(event)=>{
+    event.preventDefault();
+    field = "firstName";
+    getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field)
+})
 
+//On click to sort based on last name
+lastNameHeading.addEventListener('click',(event)=>{
+    event.preventDefault();
+    field = "lastName";
+    getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field);
+})
+
+
+//On click to sort based on address
+addressHeading.addEventListener('click',(event)=>{
+    event.preventDefault();
+    field = "address";
+    getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field);
+})
+
+//On click to sort based on city
+cityHeading.addEventListener('click',(event)=>{
+    event.preventDefault();
+    field = "city";
+    getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field);
+})
+
+//On click to sort based on state
+stateHeading.addEventListener('click',(event)=>{
+    event.preventDefault();
+    field = "state";
+    getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field);
+})
+
+//On click to sort based on email
+emailHeading.addEventListener('click',(event)=>{
+    event.preventDefault();
+    field = "email";
+    getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field);
+})
+
+//On click to sort based on phone
+phoneHeading.addEventListener('click',(event)=>{
+    event.preventDefault();
+    field = "phone";
+    getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field);
+})
 
 logoutButton.addEventListener('click',(event)=>{
     localStorage.clear();
