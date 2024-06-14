@@ -4,6 +4,7 @@ import com.Sunbase.Assignment.model.Customer;
 import com.Sunbase.Assignment.service.AdminDetailsService;
 import com.Sunbase.Assignment.service.CustomerService;
 import com.Sunbase.Assignment.service.JwtService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -11,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/customer")
@@ -30,6 +33,8 @@ public class CustomerController {
 
     @Autowired
     AdminDetailsService adminDetailsService;
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -106,7 +111,9 @@ public class CustomerController {
     @PostMapping("/sync")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity syncCustomers(){
+        logger.debug("Entered syncCustomers method");
         customerService.syncCustomers();
+        logger.debug("Completed Syncing");
         return new ResponseEntity<>("Customers Synchronised successfully",HttpStatus.OK);
     }
 

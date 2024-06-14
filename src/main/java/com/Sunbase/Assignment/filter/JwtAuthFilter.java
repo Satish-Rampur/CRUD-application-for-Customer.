@@ -1,5 +1,6 @@
 package com.Sunbase.Assignment.filter;
 
+import com.Sunbase.Assignment.controller.CustomerController;
 import com.Sunbase.Assignment.service.AdminDetailsService;
 import com.Sunbase.Assignment.service.AdminDetailsServiceInterface;
 import com.Sunbase.Assignment.service.JwtService;
@@ -15,6 +16,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 
 import java.io.IOException;
 
@@ -36,6 +40,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private AdminDetailsServiceInterface adminService;
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
     public JwtAuthFilter(JwtService jwtService) {
@@ -49,13 +54,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        logger.debug("Inside doFilter Internal");
         String authHeader = request.getHeader("Authorization");
+        logger.debug("AuthHeader"+authHeader);
         String token = null;
         String userName = null;
         if(authHeader!=null && authHeader.startsWith("Bearer ")){
             token = authHeader.substring(7);
             userName = jwtService.extractUsername(token);
         }
+        logger.debug("Username"+userName);
         if(userName!=null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserDetails adminDetails = adminService.loadUserByUsername(userName);
             if(jwtService.validateToken(token,adminDetails)){

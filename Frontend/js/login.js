@@ -45,6 +45,7 @@ async function getToken(userName,password){
 async function checkTokenAndRedirect(){
     try{
         const token = localStorage.getItem('authToken');
+        
         if(token){
            const response = await fetch('http://localhost:8080/customer/all',
             {

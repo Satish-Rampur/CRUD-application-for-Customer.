@@ -165,11 +165,11 @@ async function onDeleteClick(customerId){
 
 async function syncCustomerData() {
     const token = localStorage.getItem('authToken');
+    console.log("Token inside syncdata function:",token);
     try {
-        const response = await fetch('http://localhost:8080/api/customers/sync', {
+        const response = await fetch('http://localhost:8080/customer/sync', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
         });
@@ -393,6 +393,7 @@ async function getCustomerListByPhone(searchTerm){
 async function getCustomerListWithPaginationAndSort(pageSize,pageNumber,field){
     try{
         const token = localStorage.getItem('authToken');
+        console.log("Inside get pagination",token);
         const response = await fetch(`http://localhost:8080/customer/allWithPagination/${pageNumber}/${pageSize}/${field}`,{
             headers: {
                 'Authorization':`Bearer ${token}`
@@ -450,6 +451,7 @@ async function getCustomerListWithPaginationAndSort(pageSize,pageNumber,field){
 async function getCustomerList(){
     try{
         const token = localStorage.getItem('authToken');
+        console.log("Inside get list",token);
         const response = await fetch(`http://localhost:8080/customer/allWithPagination/${currentPageNumber}/${pageSize}/${field}`,{
             headers: {
                 'Authorization':`Bearer ${token}`
