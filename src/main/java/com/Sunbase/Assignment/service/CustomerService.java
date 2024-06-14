@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CustomerService {
@@ -16,15 +18,20 @@ public class CustomerService {
     @Autowired
     public CustomerRepository customerRepository;
 
+    @Autowired
+    private RemoteApiService remoteApiService;
+
     public String addCustomer(Customer customer){
+        String uuid = String.valueOf(UUID.randomUUID());
+        customer.setUuid(uuid);
         customerRepository.save(customer);
         return "Customer added successfully";
     }
 
     public String updateCustomer(Customer customer){
         Customer savedCustomer = customerRepository.findById(customer.getId()).get();
-        savedCustomer.setFirstName(customer.getFirstName());
-        savedCustomer.setLastName(customer.getLastName());
+        savedCustomer.setFirst_name(customer.getFirst_name());
+        savedCustomer.setLast_name(customer.getLast_name());
         savedCustomer.setStreet(customer.getStreet());
         savedCustomer.setAddress(customer.getAddress());
         savedCustomer.setCity(customer.getCity());
@@ -57,7 +64,7 @@ public class CustomerService {
     }
 
     public List<Customer> getCustomerByFirstName(String firstName){
-        return customerRepository.findByFirstName(firstName);
+        return customerRepository.findByFirst_name(firstName);
     }
 
     public List<Customer> getCustomerByCity(String city){
@@ -70,5 +77,30 @@ public class CustomerService {
 
     public List<Customer> getCustomerByPhone(String phone){
         return customerRepository.findByPhone(phone);
+    }
+
+    public void syncCustomers(){
+        //String token = remoteApiService.authenticate();
+        List<Customer> remoteCustomers = remoteApiService.fetchCustomerList("dGVzdEBzdW5iYXNlZGF0YS5jb206VGVzdEAxMjM=");
+
+        for(Customer remoteCustomer: remoteCustomers){
+            Optional<Customer> existingCustomerOpt = customerRepository.findByUuid(remoteCustomer.getUuid());
+            if(existingCustomerOpt.isPresent()){
+                Customer existingCustomer = existingCustomerOpt.get();
+
+                existingCustomer.setFirst_name(remoteCustomer.getFirst_name());
+                existingCustomer.setLast_name(remoteCustomer.getLast_name());
+                existingCustomer.setStreet(remoteCustomer.getStreet());
+                existingCustomer.setAddress(remoteCustomer.getAddress());
+                existingCustomer.setCity(remoteCustomer.getCity());
+                existingCustomer.setState(remoteCustomer.getState());
+                existingCustomer.setEmail(remoteCustomer.getEmail());
+                existingCustomer.setPhone(remoteCustomer.getPhone());
+                customerRepository.save(existingCustomer);
+            }
+            else {
+                customerRepository.save(remoteCustomer);
+            }
+        }
     }
 }

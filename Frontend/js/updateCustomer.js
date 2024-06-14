@@ -40,8 +40,8 @@ async function addCustomer(firstName,lastName,address,street,city,state,email,ph
             },
             body: JSON.stringify({
                 id: customerId,
-                firstName: firstName,
-                lastName: lastName,
+                first_name: firstName,
+                last_name: lastName,
                 address: address,
                 street: street,
                 city: city,

@@ -17,9 +17,11 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    String firstName;
+    String uuid;
 
-    String lastName;
+    String first_name;
+
+    String last_name;
 
     String street;
 

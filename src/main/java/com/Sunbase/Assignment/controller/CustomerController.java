@@ -102,6 +102,14 @@ public class CustomerController {
         return new ResponseEntity<>(customerList,HttpStatus.ACCEPTED);
     }
 
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @PostMapping("/sync")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity syncCustomers(){
+        customerService.syncCustomers();
+        return new ResponseEntity<>("Customers Synchronised successfully",HttpStatus.OK);
+    }
+
 
 
 

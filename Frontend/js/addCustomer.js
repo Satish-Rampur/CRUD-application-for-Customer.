@@ -38,8 +38,8 @@ async function addCustomer(firstName,lastName,address,street,city,state,email,ph
                 'Authorization':`Bearer ${token}`
             },
             body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
+                first_name: firstName,
+                last_name: lastName,
                 address: address,
                 street: street,
                 city: city,

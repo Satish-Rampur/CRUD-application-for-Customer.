@@ -17,20 +17,21 @@ const stateHeading = document.getElementById('stateHeading');
 const emailHeading = document.getElementById('emailHeading');
 const phoneHeading = document.getElementById('phoneHeading');
 let currentPageNumber = 0;
-let field = "firstName";
+let field = "id";
 let pageSize = 5;
-
+/*
 //On click to sort based on firstName
 firstNameHeading.addEventListener('click',(event)=>{
     event.preventDefault();
-    field = "firstName";
+    field = "first_name";
     getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field)
 })
+    */
 
 //On click to sort based on last name
 lastNameHeading.addEventListener('click',(event)=>{
     event.preventDefault();
-    field = "lastName";
+    field = "last_name";
     getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field);
 })
 
@@ -120,10 +121,10 @@ syncButton.addEventListener('click',(event)=>{
 
 function searchCustomer(searchType,searchTerm){
 
-    if(searchType==="firstName"){
-        getCustomerListByFirstName(searchTerm);
-    }
-    else if(searchType==="city"){
+    // if(searchType==="first_name"){
+    //     getCustomerListByFirstName(searchTerm);
+    // }
+    if(searchType==="city"){
         getCustomerListByCity(searchTerm);
     }
     else if(searchType==="email"){
@@ -163,45 +164,26 @@ async function onDeleteClick(customerId){
 }
 
 async function syncCustomerData() {
+    const token = localStorage.getItem('authToken');
     try {
-      
-      const bearerToken = "dGVzdEBzdW5iYXNlZGF0YS5jb206VGVzdEAxMjM=";
-      console.log(bearerToken);
-      
-  
-      //Fetch customer data from remote API
-      const customerResponse = await fetch('https://qa.sunbasedata.com/sunbase/portal/api/assignment.jsp?cmd=get_customer_list', {
-        headers: {
-          Authorization: `Bearer ${bearerToken}`
-        },
-        mode: 'no-cors'
-      });
-  
-      if (!customerResponse.ok) {
-        throw new Error('Failed to fetch customer data');
-      }
-  
-      const customerList = await customerResponse.json();
-      console.log(customerResponse);
-      /*
-  
-      // 3. Loop through customer data and save/update in your database
-      for (const customer of customerList) {
-        const existingCustomer = await checkForExistingCustomer(customer.email); // Replace with your logic to check for existing customer
-  
-        if (existingCustomer) {
-          // Update existing customer
-          await updateCustomerInDatabase(customer); // Replace with your logic to update customer
-        } else {
-          // Save new customer
-          await saveCustomerInDatabase(customer); // Replace with your logic to save customer
+        const response = await fetch('http://localhost:8080/api/customers/sync', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-      }
-  
-      console.log('Customer data synced successfully!'); */
+
+        const data = await response.text();
+        console.log('Success:', data);
+        alert('Customer synchronization triggered successfully');
     } catch (error) {
-      console.error('Error syncing customer data:', error);
-      // Handle errors appropriately, e.g
+        console.error('Error:', error);
+        alert('Error triggering customer synchronization');
     }
 }
 
@@ -237,8 +219,8 @@ async function getCustomerListByFirstName(searchTerm){
                 deleteButtonId = `delete-btn-${customer.id}`;
                 tBody.innerHTML += `
                     <tr id="${customer.id}">
-                        <td>${customer.firstName}</td>
-                        <td>${customer.lastName}</td>
+                        <td>${customer.first_name}</td>
+                        <td>${customer.last_name}</td>
                         <td>${customer.street}</td>
                         <td>${customer.city}</td>
                         <td>${customer.state}</td>
@@ -286,8 +268,8 @@ async function getCustomerListByEmail(searchTerm){
                 deleteButtonId = `delete-btn-${customer.id}`;
                 tBody.innerHTML += `
                     <tr id="${customer.id}">
-                        <td>${customer.firstName}</td>
-                        <td>${customer.lastName}</td>
+                        <td>${customer.first_name}</td>
+                        <td>${customer.last_name}</td>
                         <td>${customer.street}</td>
                         <td>${customer.city}</td>
                         <td>${customer.state}</td>
@@ -335,8 +317,8 @@ async function getCustomerListByCity(searchTerm){
                 deleteButtonId = `delete-btn-${customer.id}`;
                 tBody.innerHTML += `
                     <tr id="${customer.id}">
-                        <td>${customer.firstName}</td>
-                        <td>${customer.lastName}</td>
+                        <td>${customer.first_name}</td>
+                        <td>${customer.last_name}</td>
                         <td>${customer.street}</td>
                         <td>${customer.city}</td>
                         <td>${customer.state}</td>
@@ -385,8 +367,8 @@ async function getCustomerListByPhone(searchTerm){
                 deleteButtonId = `delete-btn-${customer.id}`;
                 tBody.innerHTML += `
                     <tr id="${customer.id}">
-                        <td>${customer.firstName}</td>
-                        <td>${customer.lastName}</td>
+                        <td>${customer.first_name}</td>
+                        <td>${customer.last_name}</td>
                         <td>${customer.street}</td>
                         <td>${customer.city}</td>
                         <td>${customer.state}</td>
@@ -445,8 +427,8 @@ async function getCustomerListWithPaginationAndSort(pageSize,pageNumber,field){
                 deleteButtonId = `delete-btn-${customer.id}`;
                 tBody.innerHTML += `
                     <tr id="${customer.id}">
-                        <td>${customer.firstName}</td>
-                        <td>${customer.lastName}</td>
+                        <td>${customer.first_name}</td>
+                        <td>${customer.last_name}</td>
                         <td>${customer.street}</td>
                         <td>${customer.city}</td>
                         <td>${customer.state}</td>
@@ -492,8 +474,8 @@ async function getCustomerList(){
                 deleteButtonId = `delete-btn-${customer.id}`;
                 tBody.innerHTML += `
                     <tr id="${customer.id}">
-                        <td>${customer.firstName}</td>
-                        <td>${customer.lastName}</td>
+                        <td>${customer.first_name}</td>
+                        <td>${customer.last_name}</td>
                         <td>${customer.street}</td>
                         <td>${customer.city}</td>
                         <td>${customer.state}</td>
