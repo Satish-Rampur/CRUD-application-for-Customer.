@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+
+//Customer data. Get stored to customer table in database
 @Entity
 @Data
 @Table(name = "customer")
@@ -19,6 +21,7 @@ public class Customer {
 
     String uuid;
 
+    //Camel case is avoided to get it in sync with the remote data provided
     String first_name;
 
     String last_name;

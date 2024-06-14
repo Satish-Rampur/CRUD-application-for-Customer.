@@ -45,10 +45,16 @@ public class SecurityConfig {
 
     private final AdminDetailsServiceInterface adminDetailsService;
 
+    //The constructor injects bean of AdminDetailsServiceInterface.
+    //Lazy annotation is used to suggest that this bean should be lazily initialized
+    //This was done to circumvent circular dependency
     @Autowired
     public SecurityConfig(@Lazy AdminDetailsServiceInterface adminDetailsService) {
         this.adminDetailsService = adminDetailsService;
     }
+
+    //Configures the security filter chain
+    //Determines how incoming requests are handled based on security rules.
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception{
         return http.csrf(csrf->csrf.disable())
@@ -63,12 +69,15 @@ public class SecurityConfig {
                 .build();
     }
 
-    //Encoding password
+    //Encoding password. This bean is used to encrypt password.
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    //Bean for authentication provider
+    //Configures a DaoAuthenticationProvider which uses the AdminDetailServiceInterface
+    //to load user details and the PasswordEncoder to verify password
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -77,6 +86,7 @@ public class SecurityConfig {
         return authenticationProvider;
     }
 
+    //Bean for authenticationManager obtained from AuthenticationConfiguration
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
         return config.getAuthenticationManager();

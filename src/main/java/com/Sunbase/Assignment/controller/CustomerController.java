@@ -36,6 +36,8 @@ public class CustomerController {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
+
+    //Api to add new customer
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity addCustomer(@RequestBody Customer customer){
@@ -43,6 +45,8 @@ public class CustomerController {
         return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
     }
 
+
+    //Api to update existing customer
     @PutMapping("/update")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity updateCustomer(@RequestBody Customer customer){
@@ -50,6 +54,8 @@ public class CustomerController {
         return new ResponseEntity<>(message,HttpStatus.ACCEPTED);
     }
 
+
+    //Api to get all customers without pagination or sorting
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity getAll(){
@@ -57,6 +63,8 @@ public class CustomerController {
         return new ResponseEntity<>(customerList,HttpStatus.ACCEPTED);
     }
 
+
+    //Api to get customer using customer Id
     @GetMapping("/get/{customerId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity getById(@PathVariable("customerId") int customerId){
@@ -64,6 +72,8 @@ public class CustomerController {
         return new ResponseEntity<>(customer,HttpStatus.ACCEPTED);
     }
 
+
+    //Api to delete customer. This takes in the customer id as path variable
     @DeleteMapping("/delete/{customerId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity deleteById(@PathVariable("customerId") int customerId){
@@ -71,6 +81,8 @@ public class CustomerController {
         return new ResponseEntity<>(message,HttpStatus.ACCEPTED);
     }
 
+    //Api to get all customers with pagination and sorting based on the inputs given.
+    //Can set number of items per page, page number, sort based on various parameters
     @GetMapping("/allWithPagination/{offset}/{pageSize}/{field}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity getAllCustomerWithPaginationAndSort(@PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize, @PathVariable("field") String field){
@@ -79,6 +91,8 @@ public class CustomerController {
         return new ResponseEntity<>(customerList,HttpStatus.ACCEPTED);
     }
 
+
+    //Api to get a list of customers with the given first name
     @GetMapping("/getByFirstName/{firstName}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity getCustomerByFirstName(@PathVariable("firstName") String firstName){
@@ -86,6 +100,8 @@ public class CustomerController {
         return new ResponseEntity<>(customerList,HttpStatus.ACCEPTED);
     }
 
+
+    //Api to get list of customers based on give city
     @GetMapping("/getByCity/{city}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity getCustomerByCity(@PathVariable("city") String city){
@@ -93,6 +109,7 @@ public class CustomerController {
         return new ResponseEntity<>(customerList,HttpStatus.ACCEPTED);
     }
 
+    //Api to get customer by email
     @GetMapping("/getByEmail/{email}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity getCustomerByEmail(@PathVariable("email") String email){
@@ -100,6 +117,8 @@ public class CustomerController {
         return new ResponseEntity<>(customerList,HttpStatus.ACCEPTED);
     }
 
+
+    //Api to get customer by phone number
     @GetMapping("/getByPhone/{phone}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity getCustomerByPhone(@PathVariable("phone") String phone){
@@ -107,6 +126,8 @@ public class CustomerController {
         return new ResponseEntity<>(customerList,HttpStatus.ACCEPTED);
     }
 
+
+    //Api to synchronise customer database with that obtained from remote database
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/sync")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+
+//Admin credentials are stored using this.
 @Entity
 @Data
 @AllArgsConstructor

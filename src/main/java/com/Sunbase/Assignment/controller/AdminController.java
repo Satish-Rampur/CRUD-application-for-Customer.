@@ -26,6 +26,8 @@ public class AdminController {
 
     @Autowired
     public AdminDetailsService adminDetailsService;
+
+    //Api to add new user and save to database.
     @PostMapping("/add")
     public ResponseEntity addUser(@RequestBody Admin admin){
 
@@ -33,6 +35,8 @@ public class AdminController {
         return new ResponseEntity(message, HttpStatus.ACCEPTED);
     }
 
+
+    //Api to generate token, which is to be used by other apis
     @PostMapping("/generateToken")
 
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest){

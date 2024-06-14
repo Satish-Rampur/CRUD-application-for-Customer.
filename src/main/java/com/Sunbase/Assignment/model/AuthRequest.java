@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+
+//This acts as a dto to get input for admin login
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

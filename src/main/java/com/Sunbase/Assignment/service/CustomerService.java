@@ -67,22 +67,29 @@ public class CustomerService {
         return customerRepository.findByFirst_name(firstName);
     }
 
+    //Get customer list by city
     public List<Customer> getCustomerByCity(String city){
         return customerRepository.findByCity(city);
     }
 
+    //Get customer list by email
     public List<Customer> getCustomerByEmail(String email){
         return customerRepository.findByEmail(email);
     }
 
+    //Get customer list by phone
     public List<Customer> getCustomerByPhone(String phone){
         return customerRepository.findByPhone(phone);
     }
 
+    //Synchronising the customers obtained from remote server to database.
     public void syncCustomers(){
         //String token = remoteApiService.authenticate();
+        //Fetching the remote customers using the api
         List<Customer> remoteCustomers = remoteApiService.fetchCustomerList("dGVzdEBzdW5iYXNlZGF0YS5jb206VGVzdEAxMjM=");
 
+        //Looping throughout the customer list. If customer already exists, the customer is updated.
+        //If not present, new customer is added
         for(Customer remoteCustomer: remoteCustomers){
             Optional<Customer> existingCustomerOpt = customerRepository.findByUuid(remoteCustomer.getUuid());
             if(existingCustomerOpt.isPresent()){
