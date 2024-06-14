@@ -128,6 +128,19 @@ This is a CRUD (Create, Read, Update, Delete) application for managing customer 
            spring.datasource.password=password
        
 5. Build and run the Spring Boot application (use Intellij Idea)
+6. Add admin username and password into the database, which will help you for further login.(Note: Admin creation is not possible via frontend. Use Postman)
+   
+   - **Path:** http://localhost:8080/admin/generateToken
+   - **Method:** POST
+   - **Request Body:**
+     
+          ```json
+          {
+              "userName": "admin",
+              "password": "password",
+              "roles": "ROLE_ADMIN"
+          }
+
 
 ### Frontend Setup
 1. Open VS Code
