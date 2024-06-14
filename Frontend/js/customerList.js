@@ -1,4 +1,4 @@
-
+//Getting required elements from the html page
 const pageSizeField = document.getElementById('size');
 const nextButton = document.getElementById('next-btn');
 const previousButton = document.getElementById('prev-btn');
@@ -71,22 +71,30 @@ phoneHeading.addEventListener('click',(event)=>{
     getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field);
 })
 
+//Logout button logic will be triggered here
 logoutButton.addEventListener('click',(event)=>{
+    //Clears the local storage which contained the token and redirects to login page
     localStorage.clear();
     window.location.href = 'index.html';
 })
 
+//Next Button
 nextButton.addEventListener('click',(event)=>{
     event.preventDefault();
+
+    //Increment current page number to keep track
     currentPageNumber++;
     console.log("Current Page Number Inside next: ",currentPageNumber);
     pageSize = pageSizeField.value;
     console.log(pageSizeField.value);
     previousButton.style.backgroundColor = 'blueviolet';
+
+    //Calls the function to do the logic
     getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field); 
 
 })
 
+//Previous button on click
 previousButton.addEventListener('click',(event)=>{
     event.preventDefault();
     currentPageNumber--;
@@ -99,27 +107,38 @@ previousButton.addEventListener('click',(event)=>{
     getCustomerListWithPaginationAndSort(pageSize,currentPageNumber,field);
 })
 
+//Add button on click
 addButton.addEventListener('click',(event)=>{
     event.preventDefault();
+
+    //Redirects to add customer page
     window.location.href = 'addCustomer.html';
 })
 
+
+//Search button on click
 searchButton.addEventListener('click',(event)=>{
     event.preventDefault();
     searchTerm = searchField.value;
     searchType = searchTypeField.value;
+
+    //Runs api for searching customer based on search term and type
     searchCustomer(searchType,searchTerm);
 
 
 })
 
+//Sync button on click synchronise the customer data of remote url with that of database
 syncButton.addEventListener('click',(event)=>{
     event.preventDefault();
     syncCustomerData();
 })
 
 
+//Search custome function. Takes search type and search term as arguements
 function searchCustomer(searchType,searchTerm){
+
+    //Based on the search type different fucntions are triggered
 
     // if(searchType==="first_name"){
     //     getCustomerListByFirstName(searchTerm);
@@ -139,13 +158,19 @@ function searchCustomer(searchType,searchTerm){
     
 }
 
+//Function to trigger on clicking edit button
 function onEditClick(customerId){
+    //Redirects to update customer page. Also sends customer id to track the customer whose data is being edited
     window.location.href = 'updateCustomer.html?customerId=' + customerId;
 }
 
+//Function to trigger on clicking delete button
 async function onDeleteClick(customerId){
     try{
+        //Retrieves token from local storage
         const token = localStorage.getItem('authToken');
+
+        //Hit the delete api
         await fetch(`http://localhost:8080/customer/delete/${customerId}`,{
             method: 'DELETE',
             headers: {
@@ -154,6 +179,7 @@ async function onDeleteClick(customerId){
         }
         );
 
+        //Refershes the page 
         getCustomerList();   
         }
     catch(error){
@@ -163,6 +189,7 @@ async function onDeleteClick(customerId){
         
 }
 
+//Function to sync customer data with that of remote url
 async function syncCustomerData() {
     const token = localStorage.getItem('authToken');
     console.log("Token inside syncdata function:",token);
@@ -189,7 +216,7 @@ async function syncCustomerData() {
 
 
 
-
+//Gets customer list by first name and populates the table
 async function getCustomerListByFirstName(searchTerm){
     try{
         const token = localStorage.getItem('authToken');
@@ -206,29 +233,25 @@ async function getCustomerListByFirstName(searchTerm){
             window.location.href = 'index.html';
         }
         let customerList = await response.json();
-        
-
-
-        
-        
-            
-            tBody.innerHTML = ``;
-            for(let i=0;i<customerList.length;i++){
-                customer = customerList[i];
-                editButtonId = `edit-btn-${customer.id}`;
-                deleteButtonId = `delete-btn-${customer.id}`;
-                tBody.innerHTML += `
-                    <tr id="${customer.id}">
-                        <td>${customer.first_name}</td>
-                        <td>${customer.last_name}</td>
-                        <td>${customer.street}</td>
-                        <td>${customer.city}</td>
-                        <td>${customer.state}</td>
-                        <td>${customer.email}</td>
-                        <td>${customer.phone}</td>
-                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
-                    </tr>
-            `
+         
+        //Populating the table with customer data
+        tBody.innerHTML = ``;
+        for(let i=0;i<customerList.length;i++){
+            customer = customerList[i];
+            editButtonId = `edit-btn-${customer.id}`;
+            deleteButtonId = `delete-btn-${customer.id}`;
+            tBody.innerHTML += `
+                                <tr id="${customer.id}">
+                                    <td>${customer.first_name}</td>
+                                    <td>${customer.last_name}</td>
+                                    <td>${customer.street}</td>
+                                    <td>${customer.city}</td>
+                                    <td>${customer.state}</td>
+                                    <td>${customer.email}</td>
+                                    <td>${customer.phone}</td>
+                                    <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
+                                </tr>
+                            `
             
         }
         
@@ -238,7 +261,7 @@ async function getCustomerListByFirstName(searchTerm){
     }
 }
 
-
+//Gets customer list by email and populates the table
 async function getCustomerListByEmail(searchTerm){
     try{
         const token = localStorage.getItem('authToken');
@@ -255,29 +278,25 @@ async function getCustomerListByEmail(searchTerm){
             window.location.href = 'index.html';
         }
         let customerList = await response.json();
-        
-
-
-        
-        
-            
-            tBody.innerHTML = ``;
-            for(let i=0;i<customerList.length;i++){
-                customer = customerList[i];
-                editButtonId = `edit-btn-${customer.id}`;
-                deleteButtonId = `delete-btn-${customer.id}`;
-                tBody.innerHTML += `
-                    <tr id="${customer.id}">
-                        <td>${customer.first_name}</td>
-                        <td>${customer.last_name}</td>
-                        <td>${customer.street}</td>
-                        <td>${customer.city}</td>
-                        <td>${customer.state}</td>
-                        <td>${customer.email}</td>
-                        <td>${customer.phone}</td>
-                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
-                    </tr>
-            `
+    
+        //Populating table with customer data        
+        tBody.innerHTML = ``;
+        for(let i=0;i<customerList.length;i++){
+            customer = customerList[i];
+            editButtonId = `edit-btn-${customer.id}`;
+            deleteButtonId = `delete-btn-${customer.id}`;
+            tBody.innerHTML += `
+                                    <tr id="${customer.id}">
+                                        <td>${customer.first_name}</td>
+                                        <td>${customer.last_name}</td>
+                                        <td>${customer.street}</td>
+                                        <td>${customer.city}</td>
+                                        <td>${customer.state}</td>
+                                        <td>${customer.email}</td>
+                                        <td>${customer.phone}</td>
+                                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
+                                    </tr>
+                            `
             
         }
         
@@ -287,6 +306,8 @@ async function getCustomerListByEmail(searchTerm){
     }
 }
 
+
+//Gets customer list by city and populates the table
 async function getCustomerListByCity(searchTerm){
     try{
         const token = localStorage.getItem('authToken');
@@ -302,31 +323,27 @@ async function getCustomerListByCity(searchTerm){
         if(!response.ok){
             window.location.href = 'index.html';
         }
-        let customerList = await response.json();
-        
+        let customerList = await response.json(); 
+        console.log(customerList);
 
-
-        
-        
-            
-            console.log(customerList);
-            tBody.innerHTML = ``;
-            for(let i=0;i<customerList.length;i++){
-                customer = customerList[i];
-                editButtonId = `edit-btn-${customer.id}`;
-                deleteButtonId = `delete-btn-${customer.id}`;
-                tBody.innerHTML += `
-                    <tr id="${customer.id}">
-                        <td>${customer.first_name}</td>
-                        <td>${customer.last_name}</td>
-                        <td>${customer.street}</td>
-                        <td>${customer.city}</td>
-                        <td>${customer.state}</td>
-                        <td>${customer.email}</td>
-                        <td>${customer.phone}</td>
-                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
-                    </tr>
-            `
+        //Populates table 
+        tBody.innerHTML = ``;
+        for(let i=0;i<customerList.length;i++){
+            customer = customerList[i];
+            editButtonId = `edit-btn-${customer.id}`;
+            deleteButtonId = `delete-btn-${customer.id}`;
+            tBody.innerHTML += `
+                                <tr id="${customer.id}">
+                                    <td>${customer.first_name}</td>
+                                    <td>${customer.last_name}</td>
+                                    <td>${customer.street}</td>
+                                    <td>${customer.city}</td>
+                                    <td>${customer.state}</td>
+                                    <td>${customer.email}</td>
+                                    <td>${customer.phone}</td>
+                                    <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
+                                </tr>
+                        `
             
             
         }
@@ -337,7 +354,7 @@ async function getCustomerListByCity(searchTerm){
     }
 }
 
-
+//Gets customer list by phone number and populates the table
 async function getCustomerListByPhone(searchTerm){
     try{
         const token = localStorage.getItem('authToken');
@@ -353,32 +370,26 @@ async function getCustomerListByPhone(searchTerm){
         if(!response.ok){
             window.location.href = 'index.html';
         }
-        let customerList = await response.json();
+        let customerList = await response.json();  
         
-
-
-        
-        
-            
-            tBody.innerHTML = ``;
-            for(let i=0;i<customerList.length;i++){
-                customer = customerList[i];
-                editButtonId = `edit-btn-${customer.id}`;
-                deleteButtonId = `delete-btn-${customer.id}`;
-                tBody.innerHTML += `
-                    <tr id="${customer.id}">
-                        <td>${customer.first_name}</td>
-                        <td>${customer.last_name}</td>
-                        <td>${customer.street}</td>
-                        <td>${customer.city}</td>
-                        <td>${customer.state}</td>
-                        <td>${customer.email}</td>
-                        <td>${customer.phone}</td>
-                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
-                    </tr>
-            `
-            
-            
+        //Populating table
+        tBody.innerHTML = ``;
+        for(let i=0;i<customerList.length;i++){
+            customer = customerList[i];
+            editButtonId = `edit-btn-${customer.id}`;
+            deleteButtonId = `delete-btn-${customer.id}`;
+            tBody.innerHTML += `
+                                <tr id="${customer.id}">
+                                    <td>${customer.first_name}</td>
+                                    <td>${customer.last_name}</td>
+                                    <td>${customer.street}</td>
+                                    <td>${customer.city}</td>
+                                    <td>${customer.state}</td>
+                                    <td>${customer.email}</td>
+                                    <td>${customer.phone}</td>
+                                    <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
+                                </tr>
+                        `         
         }
         
         
@@ -389,7 +400,7 @@ async function getCustomerListByPhone(searchTerm){
 
 
 
-
+//Gets customer list by first name and populates the table
 async function getCustomerListWithPaginationAndSort(pageSize,pageNumber,field){
     try{
         const token = localStorage.getItem('authToken');
