@@ -24,6 +24,7 @@ public class AdminController {
     @Autowired
     private JwtService jwtService;
 
+    //This deals with apis related to admin.
     @Autowired
     public AdminDetailsService adminDetailsService;
 

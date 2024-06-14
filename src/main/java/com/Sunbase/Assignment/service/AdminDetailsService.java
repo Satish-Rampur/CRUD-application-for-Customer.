@@ -33,11 +33,13 @@ public class AdminDetailsService implements AdminDetailsServiceInterface {
     private final AdminRepository adminRepository;
     private PasswordEncoder encoder;
 
+    //Constructor injection is used to circumvent circular dependency
     @Autowired
     public AdminDetailsService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
     }
 
+    //Setter injection is used to circumvent circular dependency
     @Autowired
     public void setPasswordEncoder(PasswordEncoder encoder) {
         this.encoder = encoder;
@@ -47,11 +49,13 @@ public class AdminDetailsService implements AdminDetailsServiceInterface {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Optional<Admin> admin = adminRepository.findByUserName(userName);
-        // Converting admin to AdminDetails
+        // Converting admin to AdminDetails and returning
+        //If no user found, ith throws an error
         return admin.map(AdminDetails::new).orElseThrow(()->
                 new UsernameNotFoundException("User not found"+userName));
     }
 
+    //Saves new admin to database. Password is encoded
     public String addAdmin(Admin admin){
         admin.setPassword(encoder.encode(admin.getPassword()));
         adminRepository.save(admin);

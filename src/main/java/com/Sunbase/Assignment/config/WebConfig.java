@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig {
 
+    //This is for customizing CORS settings
+    //Allows front end application running on http://127.0.0.1:5500 to interact with backend without CORS issue
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {

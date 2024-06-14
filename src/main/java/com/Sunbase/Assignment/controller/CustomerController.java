@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import java.util.List;
 
 
+//This deals with APIs related to Customers
 @RestController
 @RequestMapping("/customer")
 @CrossOrigin(origins = "http://127.0.0.1:5500")
