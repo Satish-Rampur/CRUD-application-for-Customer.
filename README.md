@@ -90,7 +90,7 @@ This is a CRUD (Create, Read, Update, Delete) application for managing customer 
     - **Method:** DELETE
 
 - **Sync Customers**
-    - **Path:** /api/customers/sync
+    - **Path:** http://localhost:8080/customer/delete/sync
     - **Method:** POST
 
 ## Frontend Screens
