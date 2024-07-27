@@ -19,6 +19,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
+    @Column(unique = true)
     String uuid;
 
     //Camel case is avoided to get it in sync with the remote data provided

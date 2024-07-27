@@ -166,18 +166,21 @@ function onEditClick(customerId){
 
 //Function to trigger on clicking delete button
 async function onDeleteClick(customerId){
+    console.log("Inside delete function")
+    console.log("Uuid of the customer is ",customerId);
     try{
         //Retrieves token from local storage
         const token = localStorage.getItem('authToken');
 
         //Hit the delete api
-        await fetch(`http://localhost:8080/customer/delete/${customerId}`,{
+        const response = await fetch(`http://localhost:8080/customer/delete/${customerId}`,{
             method: 'DELETE',
             headers: {
                 'Authorization':`Bearer ${token}`
             }
         }
         );
+        console.log(response.body);
 
         //Refershes the page 
         getCustomerList();   
@@ -249,7 +252,7 @@ async function getCustomerListByFirstName(searchTerm){
                                     <td>${customer.state}</td>
                                     <td>${customer.email}</td>
                                     <td>${customer.phone}</td>
-                                    <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
+                                    <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick('${customer.uuid}')" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
                                 </tr>
                             `
             
@@ -294,7 +297,7 @@ async function getCustomerListByEmail(searchTerm){
                                         <td>${customer.state}</td>
                                         <td>${customer.email}</td>
                                         <td>${customer.phone}</td>
-                                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
+                                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick('${customer.uuid}')" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
                                     </tr>
                             `
             
@@ -341,7 +344,7 @@ async function getCustomerListByCity(searchTerm){
                                     <td>${customer.state}</td>
                                     <td>${customer.email}</td>
                                     <td>${customer.phone}</td>
-                                    <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
+                                    <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick('${customer.uuid}')" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
                                 </tr>
                         `
             
@@ -387,7 +390,7 @@ async function getCustomerListByPhone(searchTerm){
                                     <td>${customer.state}</td>
                                     <td>${customer.email}</td>
                                     <td>${customer.phone}</td>
-                                    <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
+                                    <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick('${customer.uuid}')" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
                                 </tr>
                         `         
         }
@@ -418,7 +421,8 @@ async function getCustomerListWithPaginationAndSort(pageSize,pageNumber,field){
             window.location.href = 'index.html';
         }
         let customerData = await response.json();
-        console.log(customerData);
+        
+        console.log("Customer Data: ",customerData);
 
 
         if(customerData.last){
@@ -446,7 +450,7 @@ async function getCustomerListWithPaginationAndSort(pageSize,pageNumber,field){
                         <td>${customer.state}</td>
                         <td>${customer.email}</td>
                         <td>${customer.phone}</td>
-                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
+                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick('${customer.uuid}')" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
                     </tr>
             `
             
@@ -494,7 +498,7 @@ async function getCustomerList(){
                         <td>${customer.state}</td>
                         <td>${customer.email}</td>
                         <td>${customer.phone}</td>
-                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick(${customer.id})" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
+                        <td><button onclick= "onEditClick(${customer.id})" class="edit-btn" id="${editButtonId}">Edit</button><button onclick="onDeleteClick('${customer.uuid}')" class="delete-btn" id="${deleteButtonId}">Delete</button> </td>
                     </tr>
             `
             

@@ -1,7 +1,11 @@
 package com.Sunbase.Assignment.service;
 
+import com.Sunbase.Assignment.controller.CustomerController;
 import com.Sunbase.Assignment.model.Customer;
 import com.Sunbase.Assignment.repository.CustomerRepository;
+import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +18,8 @@ import java.util.UUID;
 
 @Service
 public class CustomerService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
     public CustomerRepository customerRepository;
@@ -53,9 +59,11 @@ public class CustomerService {
         return customerRepository.findById(id).get();
     }
 
-    public String deleteCustomerById(int id){
-        customerRepository.deleteById(id);
-        return "Customer Successfully Deleted";
+    @Transactional
+    public String deleteCustomerById(String uuid){
+        logger.debug("Uuid is: "+uuid);
+        customerRepository.deleteByUuid(uuid);
+        return remoteApiService.deleteCustomer("dGVzdEBzdW5iYXNlZGF0YS5jb206VGVzdEAxMjM=",uuid);
     }
 
     public Page<Customer> getAllCustomersWithPaginationAndSort(int offset, int pageSize,String field){

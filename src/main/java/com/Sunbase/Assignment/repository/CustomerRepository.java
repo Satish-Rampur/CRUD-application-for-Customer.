@@ -25,4 +25,6 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
 
     //To find customer by uuid. Optional is used to make exception handling easy.
     Optional<Customer> findByUuid(String uuid);
+
+    public void deleteByUuid(String uuid);
 }

@@ -75,10 +75,10 @@ public class CustomerController {
 
 
     //Api to delete customer. This takes in the customer id as path variable
-    @DeleteMapping("/delete/{customerId}")
+    @DeleteMapping("/delete/{customerUuid}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity deleteById(@PathVariable("customerId") int customerId){
-        String message = customerService.deleteCustomerById(customerId);
+    public ResponseEntity deleteById(@PathVariable("customerUuid") String customerUuid){
+        String message = customerService.deleteCustomerById(customerUuid);
         return new ResponseEntity<>(message,HttpStatus.ACCEPTED);
     }
 

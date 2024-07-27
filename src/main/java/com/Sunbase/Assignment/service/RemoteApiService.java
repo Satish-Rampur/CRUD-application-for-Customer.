@@ -21,6 +21,8 @@ public class RemoteApiService {
     //Url for getting customer list which is to be synchronised with database
     private static final String CUSTOMER_LIST_URL = "https://qa.sunbasedata.com/sunbase/portal/api/assignment.jsp";
 
+    private static final String DELETE_CUSTOMER = "https://qa.sunbasedata.com/sunbase/portal/api/assignment.jsp";
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -51,6 +53,31 @@ public class RemoteApiService {
             return (String) response.getBody().get("access_token");
         }
         throw new RuntimeException("Failed to authenticate with remote API");
+    }
+
+    //Delete customer in external database
+    public String deleteCustomer(String token, String uuid){
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.set("Authorization","Bearer "+token);
+
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(DELETE_CUSTOMER)
+                .queryParam("cmd","delete")
+                .queryParam("uuid",uuid);
+
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                uriBuilder.toUriString(),
+                HttpMethod.POST,
+                requestEntity,
+                String.class
+        );
+        if(response.getStatusCode()==HttpStatus.OK && response.getBody()!=null){
+            return response.getBody().toString();
+        }
+        throw new RuntimeException("Failed to delete remote api");
+
     }
 
     //Fetches a list of customers from the remote api
